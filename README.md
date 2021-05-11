@@ -28,6 +28,8 @@ O *state* de uma aplicação corresponde a todas as informações que ela usa e/
 Essas duas entidades, junstas, modificam o *state*. As *actions* determinam o que será modificado e onde. *Reducers*, por sua vez, especificam como o *state* é modificado. As *actions* são objetos com dois atributos: *type* e *payload*. O *type* é o indentificador de cada *action* e o *payload* é toda a informação necessária para modificar o *state*. Neste tutorial, teremos duas *actions*: SET_NAME e CLEAR_NAME. A primeira possui um *payload* especificando qual string deve ser atribuída à propriedade *name* do nosso *state*. A última apenas especifica que o atributo *name* deve ser 'limpo', ou seja, deve retornar ao seu estado inicial e, por isso, apenas determinamos o atributo *type* no momento da criação do objeto.
 
 ```javascript
+// src/store/reducers/account/actions.ts
+
 const SET_NAME = 'SET_NAME';
 const CLEAR_NAME = 'CLEAR_NAME';
 
@@ -39,3 +41,26 @@ export const setNameAction(name: String) => ({
 export const clearNameAction() => ({
   type: CLEAR_NAME
 });
+```
+```javascript
+// src/store/reducers/account/reducer.ts
+
+const initialState = {
+    name: '',
+}
+
+export default (state = initialState, action) => {
+    switch (action.type) {
+        case SET_NAME:
+            return { 
+                …state, name: action.payload
+            };
+        case CLEAR_NAME:
+            return { 
+                …state, name: initialState.name
+            };
+        default:
+            return state;
+    }
+}
+```
