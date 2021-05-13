@@ -37,14 +37,15 @@ Essas duas entidades, junstas, modificam o *state*. As *actions* determinam o qu
 const SET_NAME = 'SET_NAME';
 const CLEAR_NAME = 'CLEAR_NAME';
 
-export const setNameAction(name: String) => ({
+export const setNameAction = (name: String) => ({
   type: SET_NAME,
   payload: name
 });
 
-export const clearNameAction() => ({
+export const clearNameAction = () => ({
   type: CLEAR_NAME
 });
+
 ```
 ```javascript
 // src/store/reducers/account/reducer.ts
@@ -53,20 +54,21 @@ const initialState = {
     name: '',
 }
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: any) => {
     switch (action.type) {
-        case SET_NAME:
+        case 'SET_NAME':
             return { 
-                …state, name: action.payload
+                ...state, name: action.payload
             };
-        case CLEAR_NAME:
+        case 'CLEAR_NAME':
             return { 
-                …state, name: initialState.name
+                ...state, name: initialState.name
             };
         default:
             return state;
     }
 }
+
 ```
 ### Combinando Redcucers
 Uma boa prática em aplicações com muitos reducers, que usam o Redux, é utilizar a função *combineReducers* para unir todos os reducers do projeto em um único, que será usado na criação do store.
