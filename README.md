@@ -21,10 +21,9 @@ A biblioteca Javascript Redux ajuda o desenvolvedor no gerenciamento de estados 
     │   └── ...               
     └── ...
  
-### Eentendo os componentes
-#### O state
+### O state
 O *state* de uma aplicação corresponde a todas as informações que ela usa e/ou modifica. 
-#### Actions e Reducers
+### Actions e Reducers
 Essas duas entidades, junstas, modificam o *state*. As *actions* determinam o que será modificado e onde. *Reducers*, por sua vez, especificam como o *state* é modificado. As *actions* são objetos com dois atributos: *type* e *payload*. O *type* é o indentificador de cada *action* e o *payload* é toda a informação necessária para modificar o *state*. Neste tutorial, teremos duas *actions*: SET_NAME e CLEAR_NAME. A primeira possui um *payload* especificando qual string deve ser atribuída à propriedade *name* do nosso *state*. A última apenas especifica que o atributo *name* deve ser 'limpo', ou seja, deve retornar ao seu estado inicial e, por isso, apenas determinamos o atributo *type* no momento da criação do objeto.
 
 ```javascript
@@ -63,4 +62,106 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+```
+### Combinando Redcucers
+Uma boa prática em aplicações com muitos reducers, que usam o Redux, é utilizar a função *combineReducers* para unir todos os reducers do projeto em um único, que será usado na criação do store.
+
+```javascript
+// src/store/reducers/rootReducer.ts
+
+import { combineReducers } from 'redux';
+
+import account from './account/reducer';
+
+const rootReducer = combineReducers({
+  account
+});
+
+export default rootReducer;
+```
+
+### O store
+O store é o objeto onde o state é armazenado. O store é criado a partir do método *createStore()* do Redux, que recebe como argumento o reducer criado. 
+
+```javascript
+// src/store/index.ts
+
+import { createStore } from "redux"
+
+import rootReducer from "./reducers/rootReducer"
+
+export default createStore(rootReducer)
+```
+
+## React Redux [(doc)](https://react-redux.js.org/)
+### Provider
+Para que o store esteja disponível em todo o escopo da aplicação, ele é passado para o componente Provider, que importamos da biblioteca react-redux, que envolve nosso componente Routes. Dessa forma, o Provider pode prover acesso ao store nos componentes envoltos por ele e em todos dentro destes.
+
+```javascript
+// App.tsx
+
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
+
+export default function App() {
+  return (
+    <Provider store={store}>
+        <Routes/>
+    </Provider>
+  );
+}
+
+```
+### Conectando componentes
+
+## Redux Persist [(doc)](https://github.com/rt2zz/redux-persist)
+A biblioteca Redux persist salva localmente o store do Redux de forma persistente. Semore que a aplicação abrir novamente ou for recarregada, o store é resgatado do armazenamento local. 
+
+Para fazermos a instalação da biblioteca no nosso projeto, usamos o comando: `npm install redux-persist`
+
+### Integrando com o store
+Para fazer uso da biblioteca, devemos criar usar o método que *persistReducer* que recebe como parâmetro um objeto com as configurações (chave e storage) e nos retorna um reducer. A partir do reducer retornado, podemos obter o objeto persistor a partir do método *persistStore*, que recebe como paraâmetro nosso store. O objeto é, então, exportado para usarmos no App.tsx.
+```javascript
+// src/store/index.ts
+
+import { createStore } from 'redux';
+import rootReducer from './reducers/rootReducer';
+import { persistStore, persistReducer} from 'redux-persist';
+import AsyncStorage from '@react-native-community/async-storage';
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer);
+const persistor = persistStore(store);
+
+export { store, persistor };
+```
+
+### PersistGate
+Envolvemos nossa aplicação com o componente PersistGate, que atrasa a renderização das interfaces da aplicação até que o state persistido tenha sido resgatado e salvo no Redux.
+
+```javascript
+// App.tsx
+
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
+export default function App() {
+  return (
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <Routes/>
+        </PersistGate>
+    </Provider>
+  );
+}
+
 ```
