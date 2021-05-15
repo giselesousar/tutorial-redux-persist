@@ -5,7 +5,7 @@ Neste tutorial, serão abordados todos os passos para a criação de aplicativos
 ## Instalando as dependências
 Com o projeto React Native já criado, usaremos o npm para instalar as bibliotecas necessárias para este tutorial, a partir da linha de comando:
 
-`npm install redux react-redux redux-persist @react-native-community/async-storage`
+`npm install redux react-redux redux-persist @react-native-async-storage/async-storage
 
 ## Redux [(doc)](https://redux.js.org/)
 
