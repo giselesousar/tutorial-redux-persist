@@ -18,7 +18,7 @@ A biblioteca Javascript Redux ajuda o desenvolvedor no gerenciamento de estados 
     │   ├── ...          
     │   ├── store
     │   |  ├── reducers
-    |   |  |  ├── account
+    |   |  |  ├── user
     |   |  |  |  ├── actions.ts
     |   |  |  |  └── reducer.ts
     |   |  |  └── rootReducer.ts
@@ -29,45 +29,50 @@ A biblioteca Javascript Redux ajuda o desenvolvedor no gerenciamento de estados 
 ### O state
 O *state* de uma aplicação corresponde a todas as informações que ela usa e/ou modifica. 
 ### Actions e Reducers
-Essas duas entidades, junstas, modificam o *state*. As *actions* determinam o que será modificado e onde. *Reducers*, por sua vez, especificam como o *state* é modificado. As *actions* são objetos com dois atributos: *type* e *payload*. O *type* é o indentificador de cada *action* e o *payload* é toda a informação necessária para modificar o *state*. Neste tutorial, teremos duas *actions*: SET_NAME e CLEAR_NAME. A primeira possui um *payload* especificando qual string deve ser atribuída à propriedade *name* do nosso *state*. A última apenas especifica que o atributo *name* deve ser 'limpo', ou seja, deve retornar ao seu estado inicial e, por isso, apenas determinamos o atributo *type* no momento da criação do objeto.
+Essas duas entidades, junstas, modificam o *state*. As *actions* determinam o que será modificado e onde. *Reducers*, por sua vez, especificam como o *state* é modificado. As *actions* são objetos com dois atributos: *type* e *payload*. O *type* é o indentificador de cada *action* e o *payload* é toda a informação necessária para modificar o *state*. Neste tutorial, teremos duas *actions*: SET_USER e CLEAR_USER. A primeira possui um *payload* especificando as informações sobre o usuário que devem ser atribuídas à propriedade *user* do nosso *state*. A última apenas especifica que o atributo *user* deve ser 'limpo', ou seja, deve retornar ao seu estado inicial e, por isso, apenas determinamos o atributo *type* no momento da criação do objeto.
 
 ```javascript
-// src/store/reducers/account/actions.ts
+// src/store/reducers/user/actions.ts
 
-const SET_NAME = 'SET_NAME';
-const CLEAR_NAME = 'CLEAR_NAME';
+const SET_USER = 'SET_USER';
+const CLEAR_USER = 'CLEAR_USER';
 
-export const setNameAction = (name: String) => ({
-  type: SET_NAME,
-  payload: name
+export const setUserAction = (user: { name: string, phone: string, email: string }) => ({
+  type: SET_USER,
+  payload: user
 });
 
 export const clearNameAction = () => ({
-  type: CLEAR_NAME
+  type: CLEAR_USER
 });
 
 ```
 ```javascript
-// src/store/reducers/account/reducer.ts
+// src/store/reducers/user/reducer.ts
 
 const initialState = {
-    name: '',
+    user: {
+        name: '',
+        phone: '',
+        email: ''
+    }
 }
 
 export default (state = initialState, action: any) => {
     switch (action.type) {
-        case 'SET_NAME':
+        case 'SET_USER':
             return { 
-                ...state, name: action.payload
+                ...state, user: action.payload
             };
-        case 'CLEAR_NAME':
+        case 'CLEAR_USER':
             return { 
-                ...state, name: initialState.name
+                ...state, ...initialState
             };
         default:
             return state;
     }
 }
+
 
 ```
 ### Combinando Redcucers
@@ -78,10 +83,10 @@ Uma boa prática em aplicações com muitos reducers, que usam o Redux, é utili
 
 import { combineReducers } from 'redux';
 
-import account from './account/reducer';
+import user from './user/reducer';
 
 const rootReducer = combineReducers({
-  account
+  user
 });
 
 export default rootReducer;
