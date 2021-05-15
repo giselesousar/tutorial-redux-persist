@@ -123,7 +123,7 @@ export default function App() {
 ### Conectando componentes
 
 ## Redux Persist [(doc)](https://github.com/rt2zz/redux-persist)
-A biblioteca Redux persist salva localmente o store do Redux de forma persistente. Semore que a aplicação abrir novamente ou for recarregada, o store é resgatado do armazenamento local. 
+A biblioteca Redux persist salva localmente o store do Redux de forma persistente. Sempre que a aplicação abrir novamente ou for recarregada, o store é resgatado do armazenamento local. 
 
 
 ### Integrando com o store
