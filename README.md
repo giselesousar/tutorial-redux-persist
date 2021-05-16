@@ -132,7 +132,7 @@ Nós utilizaremos as hooks disponibilizadas pela biblioteca react-redux para ter
 #### useSelector()
 Permite que extraiamos dados do state do nosso redux usando uma função seletora. Essa função é invocada sempre que o componente da função é renderizado e sempre que uma *action* é invocada, alterando ou não o state da aplicação.
 ```javascript
-const user: User = useSelector((state: any) => state.user);
+const user = useSelector((state: any) => state.user);
 ```
 #### useDispatch()
 Para fazer uso desse hook, iremos invocá-lo e armazenar isso em uma constante *dispatch*.
