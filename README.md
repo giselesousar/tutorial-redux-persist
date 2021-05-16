@@ -157,7 +157,7 @@ A biblioteca Redux persist salva localmente o store do Redux de forma persistent
 
 
 ### Integrando com o store
-Para fazer uso da biblioteca, devemos criar usar o método que *persistReducer* que recebe como parâmetro um objeto com as configurações (chave e storage) e nos retorna um reducer. A partir do reducer retornado, podemos obter o objeto persistor a partir do método *persistStore*, que recebe como paraâmetro nosso store. O objeto é, então, exportado para usarmos no App.tsx.
+Para fazer uso da biblioteca, devemos criar usar o método *persistReducer* que recebe como parâmetro um objeto com as configurações (chave e storage) e nos retorna um reducer. A partir do reducer retornado, podemos obter o objeto persistor a partir do método *persistStore*, que recebe como paraâmetro nosso store. O objeto é, então, exportado para usarmos no App.tsx.
 ```javascript
 // src/store/index.ts
 
