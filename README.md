@@ -75,7 +75,7 @@ export default (state = initialState, action: any) => {
 
 
 ```
-### Combinando Redcucers
+### Combinando Reducers
 Uma boa prática em aplicações com muitos reducers, que usam o Redux, é utilizar a função *combineReducers* para unir todos os reducers do projeto em um único, que será usado na criação do store.
 
 ```javascript
@@ -127,6 +127,31 @@ export default function App() {
 ```
 ### Conectando componentes
 
+Nós utilizaremos as hooks disponibilizadas pela biblioteca react-redux para ter acesso às informações sobre os estados e realizar modificações neles, através das actions.
+
+#### useSelector()
+Permite que extraiamos dados do state do nosso redux usando uma função seletora. Essa função é invocada sempre que o componente da função é renderizado e sempre que uma *action* é invocada, alterando ou não o state da aplicação.
+```javascript
+const user: User = useSelector((state: any) => state.user);
+```
+#### useDispatch()
+Para fazer uso desse hook, iremos invocá-lo e armazenar isso em uma constante *dispatch*.
+```javascript
+const dispatch = useDispatch()
+```
+Para fazermos o "disptach" de *actions*, importamos em nosso componente as funções anteriormente criadas que retornam o objeto representante da *action*. Passamos a função, então, como argumento para a constante *dispatch*.
+
+```javascript
+import { setUserAction, clearUserAction } from '../../store/reducers/user/actions';
+...
+dispatch(setUserAction({
+    name: 'name',
+    email: 'email@user.com',
+    phone: '3333-4444'
+}));
+...
+dispatch(clearUserAction());
+```
 ## Redux Persist [(doc)](https://github.com/rt2zz/redux-persist)
 A biblioteca Redux persist salva localmente o store do Redux de forma persistente. Sempre que a aplicação abrir novamente ou for recarregada, o store é resgatado do armazenamento local. 
 
