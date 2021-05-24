@@ -1,0 +1,10 @@
+{
+    "users": [
+        { 
+            "name": "Gisele Ribeiro", 
+            "email": "gisele@user.com", 
+            "phone": "3303-8460",
+            "password": "123456"
+        }
+    ]
+}

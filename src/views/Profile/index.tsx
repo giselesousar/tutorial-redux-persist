@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../screens/RootStackParamList';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserAction } from '../../store/reducers/user/actions'
 
 type profileScreenProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
 export default function Profile() {
     const navigation = useNavigation<profileScreenProp>();
 
+    const user = useSelector((state: any) => state.user);
 
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [telefone, setTelefone] = useState('');
-
-    useEffect(() => {
-        setNome('Lucas');
-        setEmail('lucas@gmail.com');
-        setTelefone('3222-2222');
-    })
-
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -27,16 +22,14 @@ export default function Profile() {
             <View style={styles.inputBox}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setNome}
-                    value={nome}
+                    value={user.name}
                     editable={false}
                 />
             </View>
             <View style={styles.inputBox}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setEmail}
-                    value={email}
+                    value={user.email}
                     editable={false}
 
                 />
@@ -44,14 +37,16 @@ export default function Profile() {
             <View style={styles.inputBox}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setTelefone}
-                    value={telefone}
+                    value={user.phone}
                     editable={false}
                 />
             </View>
             <Button
                 title="SAIR"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => {
+                    dispatch(clearUserAction());
+                    navigation.navigate('Login');
+                }}
             />
         </View>
     );

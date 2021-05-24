@@ -1,31 +1,18 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import Login from './src/views/Login';
-import 'react-native-gesture-handler';
-import Profile from './src/views/Profile';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { RootStackParamList } from './src/screens/RootStackParamList';
+import { Provider } from 'react-redux';
 
-const Stack = createStackNavigator<RootStackParamList>();
+import Routes from './src/routes';
+import { store, persistor } from './src/store';
+
+import { PersistGate } from 'redux-persist/integration/react';
+
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
-    </NavigationContainer>
-
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Routes />
+      </PersistGate>
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
