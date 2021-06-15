@@ -25,6 +25,8 @@ jobs:
         
        run: npm install
         
-     - name: Expo Publish
-       run: expo publish
+     - name: Android
+       run: expo build:android
+     - name: IOS
+       run: expo build:ios
  
