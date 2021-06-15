@@ -23,6 +23,7 @@ jobs:
         expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
         expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
         expo-cache: true
+        expo-packager: npm
      - name: Install dependencies
         
        run: npm install
