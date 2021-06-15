@@ -10,22 +10,22 @@ jobs:
      runs-on: ubuntu-latest
      strategy:
       matrix:
-        node-version: [10.x]
-      steps:
-       - uses: actions/checkout@v2
-       - name: Use Node.js ${{ matrix.node-version }}
-         uses: actions/setup-node@v1
-         with:
-         node-version: ${{ matrix.node-version }}
-       - uses: expo/expo-github-action@v5
-         with:
-          expo-version: 4.x
-          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
-          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
-          expo-cache: true
-       - name: Install dependencies
+       node-version: [10.x]
+     steps:
+     - uses: actions/checkout@v2
+     - name: Use Node.js ${{ matrix.node-version }}
+       uses: actions/setup-node@v1
+       with:
+        node-version: ${{ matrix.node-version }}
+     - uses: expo/expo-github-action@v5
+       with:
+        expo-version: 4.x
+        expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+        expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+        expo-cache: true
+     - name: Install dependencies
         
-         run: npm install
+       run: npm install
         
-       - name: Expo Publish
-         run: expo publish
+     - name: Expo Publish
+       run: expo publish
