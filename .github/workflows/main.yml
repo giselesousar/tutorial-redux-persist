@@ -2,7 +2,7 @@ name: Expo - DEV - Build
 on:
  push:
    branches:
-     - dev
+     - main
 jobs:
  build:
    name: Build
